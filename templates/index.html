@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hear Stroke Predictor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="isolate bg-white px-6 py-12 sm:py-16 lg:px-8">
+        <div
+        class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
+        aria-hidden="true"
+      >
+        <div
+          class="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
+          style="
+            clip-path: polygon(
+              74.1% 44.1%,
+              100% 61.6%,
+              97.5% 26.9%,
+              85.5% 0.1%,
+              80.7% 2%,
+              72.5% 32.5%,
+              60.2% 62.4%,
+              52.4% 68.1%,
+              47.5% 58.3%,
+              45.2% 34.5%,
+              27.5% 76.7%,
+              0.1% 64.9%,
+              17.9% 100%,
+              27.6% 76.8%,
+              76.1% 97.7%,
+              74.1% 44.1%
+            );
+          "
+        ></div>
+      </div>
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+          Heart Stroke Predictor
+        </h2>
+      </div>
+      <form action="/predict" method="POST" class="mx-auto mt-12 max-w-xl sm:mt-12">
+        <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+          <div>
+            <label for="age" class="block text-sm font-semibold text-gray-900">Age</label>
+            <input type="number" id="age" name="age" min="18" max="90" required class="mt-2.5 block w-full rounded-md px-3.5 py-2 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600">
+          </div>
+          <div>
+            <label for="gender" class="block text-sm font-semibold text-gray-900">Gender</label>
+            <select id="gender" name="gender" required class="mt-2.5 block w-full rounded-md px-3.5 py-2 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600">
+              <option value="" disabled selected>Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <script>
+            const symptoms = [
+              "chest_pain", "shortness_of_breath", "irregular_heartbeat", "fatigue_weakness", "dizziness", 
+              "swelling_edema", "neck_jaw_pain", "excessive_sweating", "persistent_cough", "nausea_vomiting", 
+              "high_blood_pressure", "chest_discomfort", "cold_hands_feet", "snoring_sleep_apnea", "anxiety_doom"
+            ];
+            const symptomLabels = {
+              "chest_pain": "Chest Pain",
+              "shortness_of_breath": "Shortness of Breath",
+              "irregular_heartbeat": "Irregular Heartbeat",
+              "fatigue_weakness": "Fatigue / Weakness",
+              "dizziness": "Dizziness",
+              "swelling_edema": "Swelling / Edema",
+              "neck_jaw_pain": "Neck / Jaw Pain",
+              "excessive_sweating": "Excessive Sweating",
+              "persistent_cough": "Persistent Cough",
+              "nausea_vomiting": "Nausea / Vomiting",
+              "high_blood_pressure": "High Blood Pressure",
+              "chest_discomfort": "Chest Discomfort",
+              "cold_hands_feet": "Cold Hands / Feet",
+              "snoring_sleep_apnea": "Snoring / Sleep Apnea",
+              "anxiety_doom": "Anxiety / Sense of Doom"
+            };
+            document.write(symptoms.map(symptom => `
+              <div>
+                <label for="${symptom}" class="block text-sm font-semibold text-gray-900">${symptomLabels[symptom]}</label>
+                <select id="${symptom}" name="${symptom}" required class="mt-2.5 block w-full rounded-md px-3.5 py-2 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600">
+                  <option value="" disabled selected>Select an option</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
+            `).join(''));
+          </script>
+          <div>
+            <label for="model" class="block text-sm font-semibold text-gray-900">Select Model</label>
+            <select id="model" name="model" required class="mt-2.5 block w-full rounded-md px-3.5 py-2 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600">
+              <option value="" disabled>Select a model</option>
+              <option value="nn">Neural Network</option>
+              <option value="svm" selected>Support Vector Machine</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-10">
+          <button type="submit" class="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+            Predict
+          </button>
+        </div>
+      </form>
+      <footer class="mt-12 text-center text-sm text-gray-600">
+        <p>
+          Accuracy:
+          <span class="text-indigo-600">
+            Neural Network: 99.41% | Support Vector Machine: 98.72%
+          </span>
+        </p>
+        <p class="mt-2">
+          Dataset: 
+          <a href="https://www.kaggle.com/datasets/mahatiratusher/stroke-risk-prediction-dataset-v2" 
+             class="text-blue-600 hover:underline" 
+             target="_blank">
+            Stroke Risk Prediction Dataset (Kaggle)
+          </a>
+        </p>
+      </footer>
+      
+    </div>
+  </body>
+</html>
